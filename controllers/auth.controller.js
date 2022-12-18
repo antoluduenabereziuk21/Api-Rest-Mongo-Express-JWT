@@ -4,7 +4,7 @@ const register = (req, res) => {
 };
 
 const login = (req, res) => {
-    res.json({ok: "login"});
+    res.json({ok: "login ok"});
  };
 
 
