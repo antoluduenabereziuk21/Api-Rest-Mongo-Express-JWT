@@ -12,7 +12,8 @@ const register = async (req, res) => {
     //jwt token 
     
     console.log("User saved successfully");
-    return res.json(user);
+    //using the code of status
+    return res.status(201).json(user);
 
    }catch(error){
 
@@ -22,13 +23,34 @@ const register = async (req, res) => {
     if(error.code === 11000){
         return res.status(400).json({error: "Ya existe el usuario"});
     }
+    //using code status for default error
+    return res.status(500).json({error:"Errror de servidor"});
 
    }
 };
 
-const login = (req, res) => {
-    console.log(req.body);
-    res.json({ok: "login ok"});
+const login = async(req, res) => {
+
+    try {
+        const {email, password} = req.body;
+        //first check exist email
+        let user = await User.findOne({email});
+        if(!user) {
+            console.log("User: No Existe usaurio");   
+            return res.status(403).json({error:"No existe el usuario"});
+        };
+        //secound check password
+        const resultPassword = await user.comparePassword(password);
+        if (!resultPassword)
+            return res.status(403).json({error:"Credenciales incorrectas"});
+        //if it is ok generet token with JWT
+
+        res.json({ok: "login ok"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error:"Errror de servidor"});
+    }
+    
  };
 
 

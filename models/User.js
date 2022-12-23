@@ -32,6 +32,13 @@ userSchema.pre("save",async function (next){
         throw new Error("Fallo has de password");
     }
     
-})
+});
+//mehtods is provide for mongoose, and comparePassword is something what already exists
+// with candidate password what send the controller , 
+//we are check the password and return fo password
 
+userSchema.methods.comparePassword = async function(candidatePassword){
+    return await bcrypt.compare(candidatePassword,this.password);
+}
+ 
 export const User = mongoose.model('User',userSchema);
