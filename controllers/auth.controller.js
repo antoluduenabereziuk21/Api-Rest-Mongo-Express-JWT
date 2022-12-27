@@ -1,5 +1,7 @@
-import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { User } from "../models/User.js";
+import { generateToken } from "../utils/managerToken.js";
+
 
 const register = async (req, res) => {
    const {email, password} = req.body;
@@ -44,11 +46,10 @@ const login = async(req, res) => {
         const resultPassword = await user.comparePassword(password);
         if (!resultPassword)
             return res.status(403).json({error:"Credenciales incorrectas"});
-        //if it is ok generet token with JWT
-
         
-        const token = jwt.sign({ uid: user._id }, process.env.JWT_SECRET);
-        return res.json({token});
+            //if it is ok generet token with JWT 
+        const {token, expiresIn} = generateToken(user.id);
+        return res.json({token, expiresIn});
 
         
     } catch (error) {
@@ -58,7 +59,20 @@ const login = async(req, res) => {
     
  };
 
+ const infoUser = async (req, res) => {
+    try {
+        //now is posibel acceder al usuario , por lo cual podriamos realizar el crud del user
+        const user = await User.findById(req.uid);
+        return res.json({user});
+    } catch (error) {
+        
+    }
+    res.json({user:'correo@correo.com'});
+ }
+;
 
 export {
-    login, register
+    login,
+    register,
+    infoUser
 }
