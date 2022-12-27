@@ -18,6 +18,15 @@ export const requiereToken = (req, res, next) => {
     } catch (error) {
         console.log(error);
         //return the message with the error message
-        return res.status(401).json({ error: error.message });
+        //here is generate the errors of the token message
+        const TokenVerificationErrors = {
+            ["invalid signature"]: "La firma de JWT no es valida",
+            "jwt expired":"JWT expirado",
+            "invalid token":"Token no valido",
+            "invalid Bearer":"Utiliza formato Bearer",
+        };
+        return res
+        .status(401)
+        .send({error: TokenVerificationErrors[error.message]});
     }
 };

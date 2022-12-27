@@ -61,13 +61,15 @@ const login = async(req, res) => {
 
  const infoUser = async (req, res) => {
     try {
-        //now is posibel acceder al usuario , por lo cual podriamos realizar el crud del user
-        const user = await User.findById(req.uid);
-        return res.json({user});
+        //now is posibel acceder al usuario , 
+        //por lo cual podriamos realizar el crud del user
+        //with lean(), return an object more simple, more fast
+        const user = await User.findById(req.uid).lean();
+        return res.json({email: user.email,uid:user._id});
     } catch (error) {
-        
+        return res.status(500).json({error :"error de server"});
     }
-    res.json({user:'correo@correo.com'});
+    
  }
 ;
 
