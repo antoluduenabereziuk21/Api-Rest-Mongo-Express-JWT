@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <form id="form">
+        <input type="email" value="michel1@nest.com" id="email">
+        <input type="text" value="123456" id="password">
+        <button type="submit">Login</button>
+    </form>
+     <!--here that is only for testing purposes -->
+    <script>
+        const form = document.getElementById("form");
+        const email= document.getElementById("email");
+        const password= document.getElementById("password");
+
+        form.addEventListener('submit', async e =>{
+            e.preventDefault();
+            try {
+                //console.log(email.value)
+                //console.log(password.value)
+                //here used fetch for dont insatall anything, 
+                //only indacate the method and headers and the body json.stringify
+                const res = await fetch('/api/v1/auth/login',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({email: email.value,password: password.value})
+                })
+                console.log(res);
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    </script>
+</body>
+</html>
