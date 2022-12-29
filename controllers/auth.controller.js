@@ -49,6 +49,13 @@ const login = async(req, res) => {
         
             //if it is ok generet token with JWT 
         const {token, expiresIn} = generateToken(user.id);
+        //from documentation cookie express,this send token and cookie
+        //res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
+        res.cookie("token",token,{
+            httpOnly: true,
+            //configuramos para cuando pasemos https 
+            secure:!(process.env.MODO === "developer"),
+        });
         return res.json({token, expiresIn});
 
         
