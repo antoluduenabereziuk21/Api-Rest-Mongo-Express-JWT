@@ -30,9 +30,17 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({email: email.value,password: password.value})
+                    body: JSON.stringify({
+                        email: email.value,
+                        password: password.value
+                    })
                 })
-                console.log(res);
+                console.log(res.ok , res.status);
+                //with this obtenemos el json que nos llega
+                const {token} = await res.json();
+                //now only for test almacenaremos el token en el localStorage
+                //localStorage.setItem('token',token);
+                
             } catch (error) {
                 console.log(error)
             }
