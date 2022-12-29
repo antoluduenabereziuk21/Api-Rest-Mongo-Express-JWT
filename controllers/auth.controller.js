@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
-import { generateToken } from "../utils/managerToken.js";
+import { generateRefreshToken, generateToken } from "../utils/managerToken.js";
 
 
 const register = async (req, res) => {
@@ -49,13 +49,15 @@ const login = async(req, res) => {
         
             //if it is ok generet token with JWT 
         const {token, expiresIn} = generateToken(user.id);
-        //from documentation cookie express,this send token and cookie
-        //res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
+        generateRefreshToken(user._id,res);
+
+        /*from documentation cookie express,this send token and cookie
+        res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
         res.cookie("token",token,{
             httpOnly: true,
             //configuramos para cuando pasemos https 
             secure:!(process.env.MODO === "developer"),
-        });
+        });no lo usaremos*/
         return res.json({token, expiresIn});
 
         
