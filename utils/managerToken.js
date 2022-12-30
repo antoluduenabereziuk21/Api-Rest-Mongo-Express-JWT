@@ -29,7 +29,7 @@ export const generateRefreshToken = (uid,res) => {
                 devemos multiplicar por 1000*/
                 expires: new Date(Date.now() + expiresIn *1000)
             });
-
+            
     } catch (error) {
         console.log("ESTOY FALLANDO ACA")
     }

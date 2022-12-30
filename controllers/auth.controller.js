@@ -49,7 +49,8 @@ const login = async(req, res) => {
         
             //if it is ok generet token with JWT 
         const {token, expiresIn} = generateToken(user.id);
-        generateRefreshToken(user._id,res);
+        //and then send de refresh token how cookie
+        generateRefreshToken(user.id,res);
 
         /*from documentation cookie express,this send token and cookie
         res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
@@ -82,8 +83,38 @@ const login = async(req, res) => {
  }
 ;
 
+const refreshToken = (req, res) => {
+        
+    try {
+        
+        const refreshTokenCookie =req.cookies.refreshToken;
+        if(!refreshTokenCookie) throw new Error("No existe el Token");
+    
+        const {uid} =jwt.verify(refreshTokenCookie, process.env.JWT_REFRESH);
+        const {token, expiresIn} = generateToken(uid);
+        
+        return res.json({token, expiresIn});
+
+
+    } catch (error) {
+        console.log(error);
+        const TokenVerificationErrors = {
+            ["invalid signature"]: "La firma de JWT no es valida",
+            "jwt expired":"Token expirado",
+            "invalid token":"Token no valido",
+            "invalid Bearer":"Utiliza formato Bearer",
+            "jwt malformed":"Token mal formado",
+        };
+        return res
+        .status(401)
+        .send({error: TokenVerificationErrors[error.message]});
+    }
+};
+
+
 export {
     login,
     register,
-    infoUser
+    infoUser,
+    refreshToken
 }

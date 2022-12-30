@@ -9,10 +9,10 @@ export const requiereToken = (req, res, next) => {
         
         token = token.split(" ")[1];
         
-        const {uid} =jwt.verify(token,process.env.JWT_SECRET);
+        const {uid} = jwt.verify(token,process.env.JWT_SECRET);
         
         req.uid = uid;
-        console.log(uid);
+        
         next()
     } catch (error) {
         console.log(error);
