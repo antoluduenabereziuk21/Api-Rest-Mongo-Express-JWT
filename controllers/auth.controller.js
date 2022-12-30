@@ -111,10 +111,20 @@ const refreshToken = (req, res) => {
     }
 };
 
+const logout = (req, res)=>{
+    try {
+        res.clearCookie('refreshToken');
+        res.json({logout: true});   
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 export {
     login,
     register,
     infoUser,
-    refreshToken
+    refreshToken,
+    logout
 }
