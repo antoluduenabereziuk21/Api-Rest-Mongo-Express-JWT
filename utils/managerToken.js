@@ -34,3 +34,11 @@ export const generateRefreshToken = (uid,res) => {
         console.log("ESTOY FALLANDO ACA")
     }
 }
+
+export const tokenVerificationErrors = {
+    ["invalid signature"]: "La firma de JWT no es valida",
+    "jwt expired":"Token expirado",
+    "invalid token":"Token no valido",
+    "invalid Bearer":"Utiliza formato Bearer",
+    "jwt malformed":"Token mal formado",
+};

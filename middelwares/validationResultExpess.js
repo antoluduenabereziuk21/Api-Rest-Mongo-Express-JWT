@@ -9,7 +9,7 @@ const validationError = (req,res,next) => {
     next();
 }
 
-const validation=[
+export const validation=[
         body("email","Formato de email incorrecto")
         .trim()
         .isEmail()
@@ -17,12 +17,9 @@ const validation=[
         body("password","Formato de password incorrecto")
         .trim()
         .isLength({min:6}),
-    ];
+        validationError
+];
 
 
     
 
-export {
-    validationError,
-    validation
-}
