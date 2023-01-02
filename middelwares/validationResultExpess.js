@@ -20,6 +20,14 @@ export const validation=[
         validationError
 ];
 
+export const bodyLinkValidator = [
+    body("longlink","formato de link incorrecto")
+    .trim()
+    .notEmpty()
+    //.exists()
+    ,validationError
+];
+
 
     
 

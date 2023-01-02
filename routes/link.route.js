@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import { createLink, getLinks } from '../controllers/link.controller.js';
+import { bodyLinkValidator } from '../middelwares/validationResultExpess.js';
 import { requiereToken } from '../middelwares/validationToken.js';
 
 const router = Router();
@@ -13,7 +14,7 @@ const router = Router();
 
 router.get('/',requiereToken,getLinks);
 
-router.post('/',requiereToken,createLink);
+router.post('/',requiereToken,bodyLinkValidator,createLink);
 
 
 

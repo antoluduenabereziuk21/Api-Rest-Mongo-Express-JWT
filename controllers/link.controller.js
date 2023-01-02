@@ -25,7 +25,7 @@ export const createLink = async(req, res) =>{
         
         const newLink = await link.save();
 
-        return res.json({newLink});
+        return res.status(201).json({newLink});
     } catch (error) {
         console.log(error);
         return res.status(500).json({error:"error de servidor"});
