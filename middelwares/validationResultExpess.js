@@ -1,3 +1,4 @@
+import axios from "axios";
 import {body,validationResult} from "express-validator";
 
 const validationError = (req,res,next) => {
@@ -24,6 +25,14 @@ export const bodyLinkValidator = [
     body("longlink","formato de link incorrecto")
     .trim()
     .notEmpty()
+    .custom(async ()=>{
+        try {
+            await axios.get(value);
+            return value;
+        } catch (error) {
+            throw new Error("not found longlink 404");
+        }
+    })
     //.exists()
     ,validationError
 ];
