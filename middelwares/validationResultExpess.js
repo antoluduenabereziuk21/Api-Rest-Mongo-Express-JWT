@@ -1,7 +1,7 @@
 import axios from "axios";
 import {body,validationResult} from "express-validator";
 
-const validationError = (req,res,next) => {
+const validationExpress = (req,res,next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -18,23 +18,26 @@ export const validation=[
         body("password","Formato de password incorrecto")
         .trim()
         .isLength({min:6}),
-        validationError
+        validationExpress
 ];
 
 export const bodyLinkValidator = [
-    body("longlink","formato de link incorrecto")
-    .trim()
-    .notEmpty()
-    .custom(async ()=>{
-        try {
-            await axios.get(value);
-            return value;
-        } catch (error) {
-            throw new Error("not found longlink 404");
-        }
-    })
-    //.exists()
-    ,validationError
+    body("longLink", "Formato link incorrecto")
+        .trim()
+        .custom(async (value) => {
+            try {
+                if (!value.startsWith("http://")) {
+                    value = "https://" + value;
+                }
+                await axios.get(value);
+                console.log(value);
+                return value;
+
+            } catch (error) {
+                throw new Error("Link 404 not found");
+            }
+        })
+    ,validationExpress,
 ];
 
 
