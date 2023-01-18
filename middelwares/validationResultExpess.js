@@ -26,7 +26,7 @@ export const bodyLinkValidator = [
         .trim()
         .custom(async (value) => {
             try {
-                if (!value.startsWith("http://")) {
+                if (!value.startsWith("https://")) {
                     value = "https://" + value;
                 }
                 await axios.get(value);
@@ -34,7 +34,7 @@ export const bodyLinkValidator = [
                 return value;
 
             } catch (error) {
-                throw new Error("Link 404 not found");
+                throw new Error("Link 404 not found,el problema esta aca");
             }
         })
     ,validationExpress,

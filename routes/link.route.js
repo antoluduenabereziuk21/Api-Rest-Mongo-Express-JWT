@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createLink, getLink, getLinks, removeLink } from '../controllers/link.controller.js';
+import { createLink, getLink, getLinks, removeLink,updateLink } from '../controllers/link.controller.js';
 import { bodyLinkValidator } from '../middelwares/validationResultExpess.js';
 import { requiereToken } from '../middelwares/validationToken.js';
 
@@ -19,6 +19,7 @@ router.get('/:id',requiereToken,getLink);
 router.post('/',requiereToken,bodyLinkValidator,createLink);
 
 router.delete('/:id',requiereToken,removeLink);
+router.patch('/:id',requiereToken,bodyLinkValidator,updateLink);
 
 
 

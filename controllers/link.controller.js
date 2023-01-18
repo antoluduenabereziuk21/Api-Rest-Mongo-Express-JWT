@@ -80,3 +80,33 @@ export const removeLink = async(req, res) => {
         return res.status(500).json({error:"error de servidor"});
     }
 };
+
+export const updateLink = async (req, res) => {
+    try {
+        //with this get onelink of one user , filter for you id, req.params,and req.body, for change the link
+        const {id} = req.params;
+        const {longLink} = req.body;
+    
+        console.log(longLink)
+
+        const link = await Link.findById(id);
+        // if not exist link
+        if(!link) return res.status(404).json({error:"no existe link"});
+        //if the link does not belong to this user answer error
+       if(!link.uid.equals(req.uid)) 
+          res.status(401).json({error:"no le pertenece ese link"});
+
+        // update   
+        link.longLink = longLink;
+        await link.save();
+        console.log("link update successfully")
+        res.json({link});
+
+    } catch (error) {
+        console.log(error);
+        if(error.kind === "ObjectId"){
+            return res.status(403).json({error:"Formato id incorrecto"});
+        }
+        return res.status(500).json({error:"error de servidor"});
+    }
+}
